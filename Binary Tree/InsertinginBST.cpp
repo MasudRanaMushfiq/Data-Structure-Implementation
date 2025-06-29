@@ -1,0 +1,89 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+struct node {
+    int key;
+    struct node *left, *right;
+};
+ 
+
+struct node* newNode(int item)
+{
+    struct node* temp
+        = (struct node*)malloc(sizeof(struct node));
+    temp->key = item;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+struct node* insert(struct node* node, int key)
+{
+    
+    if (node == NULL)
+        return newNode(key);
+ 
+    
+    if (key < node->key)
+        node->left = insert(node->left, key);
+    else if (key > node->key)
+        node->right = insert(node->right, key);
+    else if(key == node->key){
+      cout<<"Element already exits\n";
+    }
+    return node;
+}
+ 
+struct node* search(struct node* root, int key)
+{
+    
+    if (root == NULL || root->key == key)
+        return root;
+ 
+    
+    if (root->key < key)
+        return search(root->right, key);
+ 
+   
+    return search(root->left, key);
+}
+void printTree(struct node* root) {
+  if (root == nullptr) {
+    return;
+  }
+  printTree(root->left);
+  cout << root->key << endl;
+  printTree(root->right);
+}
+
+int main() {
+  struct node* root = nullptr;
+  int com ;
+  int x;
+  while(1){
+    cout<<"Press 1 to insert data\nPress 2 to search node\nPress 3 to quit\n";
+    cin>>com;
+    switch (com)
+    {
+    case 1:
+      cout<<"Enter number :";
+      cin>>x;
+      root = insert(root, x);
+      break;
+    case 2 : 
+      cout<<"Search number :";
+      cin>>x;
+      if (search(root, x) == NULL)
+        printf("%d not found\n", x);
+      else
+        printf("%d found\n", x);
+      break;
+
+    case 3:
+      printTree(root);
+      return 0;
+      
+    }
+  }
+  return 0;
+}
